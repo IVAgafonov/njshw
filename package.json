@@ -1,0 +1,27 @@
+{
+  "name": "njshw",
+  "version": "0.0.1",
+  "description": "node js hello world",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IVAgafonov/njshw.git"
+  },
+  "keywords": [
+    "hello",
+    "world"
+  ],
+  "author": "IAgafonov",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/IVAgafonov/njshw/issues"
+  },
+  "homepage": "https://github.com/IVAgafonov/njshw#readme",
+  "dependencies": {
+    "express": "^4.16.2",
+    "mysql": "^2.15.0"
+  }
+}
