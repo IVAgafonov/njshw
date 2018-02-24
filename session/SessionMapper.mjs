@@ -1,10 +1,11 @@
-import {Db} from '../db/mysql.mjs';
-import {Session} from '../session/Session.mjs';
+import {Db} from '../db';
+import {Session} from './';
 
 
-export class SessionMapper {
-    constructor(dbConfig) {
-        this._db = new Db(dbConfig);
+export default class SessionMapper {
+    constructor(config) {
+        this._db = new Db(0);
+        this._config = config;
     }
     getSessionByUserId(userId) {
         let session = this._db.getRow(`SELECT * FROM \`njshw_sessions\` WHERE UserId = ${userId}`);
@@ -30,15 +31,7 @@ export class SessionMapper {
             rand += str.charAt(Math.floor(Math.random() * str.length));
         }
         let date = new Date();
-        date.setMinutes(date.getMinutes() + 30);
-        /*
-        let newSession = this._db.insertRow(`INSERT INTO \`njshw_sessions\` 
-            SET ?`, {
-            UserId: userId,
-            Session: rand,
-            ExpireDate: date.toISOString().replace(/T/, ' ').replace(/\..+/, '')}
-            );
-            */
+        date.setMinutes(date.getMinutes() + this._config.app.sessionTimeout);
 
         let newSession = this._db.insertRow(`INSERT INTO \`njshw_sessions\` 
             SET UserId = ${userId}, Session = '${rand}', ExpireDate = '${date.toISOString().replace(/T/, ' ').replace(/\..+/, '')}' 
@@ -52,7 +45,7 @@ export class SessionMapper {
                         expireDate: date.toISOString().replace(/T/, ' ').replace(/\..+/, '')
                     });
                 } else {
-                    reject({status: 500, message: "Can't insert session data"});
+                    reject("Can't insert session data.");
                 }
             }, (error) => {
                 reject(error);

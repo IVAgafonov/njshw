@@ -1,11 +1,21 @@
 import mysql from 'mysql';
+import config from '../config';
 
-export class Db {
-    constructor(config) {
-        this._host = config['host'];
-        this._database = config['database'];
-        this._user = config['user'];
-        this._password = config['password'];
+export default class MysqlDb {
+    constructor(instanceId) {
+        if (!MysqlDb.instances) {
+            MysqlDb.instances = {};
+        }
+        if (!config.db[instanceId]) {
+            throw new Error('Unknown db instance');
+        }
+        if (MysqlDb.instances[instanceId]) {
+            return MysqlDb.instances[instanceId];
+        }
+        this._host = config.db[instanceId]['host'];
+        this._database = config.db[instanceId]['database'];
+        this._user = config.db[instanceId]['user'];
+        this._password = config.db[instanceId]['password'];
         this._db = mysql.createConnection({
             host: this._host,
             user: this._user,
@@ -13,6 +23,7 @@ export class Db {
             database: this._database
         });
         this._db.connect();
+        MysqlDb.instances[instanceId] = this;
     }
     getRow(query) {
         return new Promise((resolve, reject) => {

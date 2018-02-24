@@ -1,4 +1,5 @@
-export class Session {
+
+export default class Session {
     constructor() {
         this._id = 0;
         this._userId = 0;

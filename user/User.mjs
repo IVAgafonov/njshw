@@ -1,14 +1,15 @@
-export class User {
+
+export default class User {
     constructor() {
-        this._id = 0;
-        this._name = 'Guest';
-        this._email = '-';
-        this._surname = '';
-        this._credential = '';
-        this._isDeleted = 0;
-        this._createDate = '0000-00-00 00:00:00';
-        this._deleteDate = '0000-00-00 00:00:00';
-        this._role = 0;
+        this.id = 0;
+        this.name = 'Guest';
+        this.email = '-';
+        this.surname = '';
+        this.credential = '';
+        this.isDeleted = 0;
+        this.createDate = '0000-00-00 00:00:00';
+        this.deleteDate = '0000-00-00 00:00:00';
+        this.role = 0;
     }
     get id() {
         return this._id;
